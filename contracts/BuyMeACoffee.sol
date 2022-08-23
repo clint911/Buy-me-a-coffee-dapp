@@ -1,6 +1,9 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+//store your contract address here 
+//Example contract address: 0xef587C1A92e5Bd8a8906F1686A8078eb98A03108
+
 import "hardhat/console.sol";
 
 contract BuyMeACoffee {
@@ -19,18 +22,25 @@ contract BuyMeACoffee {
         string name;
         string message;
   }
+//address of deployer contract we withdraw to this contract later  
+  address payable owner;
 
-  //list of all memos received from friends
+  //list of all memos received from coffee purchases
   Memo[] memos;
 
-  //address of contract deployer
-  address payable owner;
 
     //Deploy logic--keeping track of it
     constructor() {
         owner = payable(msg.sender);
     }
-  /** 
+   /** 
+    *fetching all the stored memos 
+    */ 
+  function getMemos() public view returns (Memo[] memory) {
+    return memos; 
+  }
+
+   /** 
     @dev buy a coffee for the contract owner
     @param _name name of the coffee buyer
     @param _message a nice message from the coffee buyer
@@ -40,7 +50,7 @@ contract BuyMeACoffee {
 
 
        //add the memos to storage 
-    memos.push(Memo, (
+    memos.push(Memo(
         msg.sender,
         block.timestamp,
         _name,
@@ -64,9 +74,7 @@ contract BuyMeACoffee {
    /** 
      *@dev retreive all the memos received and stored on the blockchain
      */ 
-   function getMemos() public view returns(Memo[] memory){
-       return memos; 
-   }
+   
 }
 
 

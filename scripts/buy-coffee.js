@@ -17,7 +17,7 @@ async function printBalances(addresses) {
     let idx = 0;
     for (const address of address) {
             console.log(`address ${idx} balances:`, await getBalance(address));
-    idx++;
+    idx ++;
     }
 }
 //logs the memos stored on chain from coffee purchases
@@ -34,13 +34,15 @@ async function printMemos(memos) {
 
 async function main() {
 // Get the example accounts 
-const [owner, tipper, tipper1, tipper2, tipper3] = await hre.ethers.getSigners();
+const [owner, tipper, tipper2, tipper3] = await hre.ethers.getSigners();
 
 //Get the contract to deploy and actually deploy
 const BuyMeACoffee = await hre.ethers.getContractFactory("BuyMeACoffee");
     const buyMeACoffee = await BuyMeACoffee.deploy();
+
+    //Deploy the contract
 await BuyMeACoffee.deployed();
-console.log("BuyMeACoffee deployed to", BuyMeACoffee.address );
+console.log("BuyMeACoffee deployed to", BuyMeACoffee.address);
 
 //check balances before the coffee purchases 
 const addresses = [owner.address, tipper.address, buyMeACoffee.address];
@@ -63,13 +65,19 @@ await buyMeACoffee.connect(owner).withdrawTips();
 //check balances after withdraw 
 console.log("== withdrawTips ==");
 await printBalances(addresses);
-//Read all the memos left for the owner 
+
+//Check out the memos 
 console.log("== memos ==");
     const memos = await buyMeACoffee.getMemos();
     printMemos(memos); 
 
 }
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+
+//use the following pattern to make sure you catch errors appropiately 
+main()
+   .then(() => process.exit(0))
+  .catch((error) => {
+      console.error(error);
+      process.exit(1);
+  });
+
