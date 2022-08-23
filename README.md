@@ -12,3 +12,4 @@ npx hardhat node
 npx hardhat run scripts/deploy.js
 ```
 # Buy-me-a-coffee-dapp
+# buy-me-a-coffee-dapp
