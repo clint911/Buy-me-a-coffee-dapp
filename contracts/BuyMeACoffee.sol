@@ -25,8 +25,7 @@ contract BuyMeACoffee {
   }
 //address of deployer contract we withdraw to this contract later
   address payable owner;
-
-  //list of all memos received from coffee purchases
+    //list of all memos received from coffee purchases
   Memo[] memos;
 
 
